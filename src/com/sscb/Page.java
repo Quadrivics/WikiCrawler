@@ -11,7 +11,7 @@ class Page {
     private Document pageDocument;
     private String title;
     private String body;
-    private String url;
+    private String shortUrl;
     private String[] wordArray;
     private List<String> uniqueWordList;
     private HashMap<String, Integer> wordScoreMap;
@@ -21,11 +21,14 @@ class Page {
     private List<String[]> uniqueLeadLinkList;
     private String[][] sortedLeadLinkArray;
 
-    Page(Document doc, String url) {
+    Page() {
+    }
+
+    Page(Document doc, String shortUrl) {
         this.pageDocument = doc;
         this.title = doc.title().toLowerCase();
         this.body = doc.text().toLowerCase();
-        this.url = url;
+        this.shortUrl = shortUrl;
         this.wordArray = helper.buildPageWordList(this);
         this.uniqueWordList = helper.buildUniqueWordList(wordArray);
         this.wordScoreMap = helper.buildWordScoreMap(uniqueWordList, wordArray, title);
@@ -46,6 +49,10 @@ class Page {
 
     String getBody() {
         return body;
+    }
+
+    String getShortUrl() {
+        return shortUrl;
     }
 
     String[] getWordArray() {
