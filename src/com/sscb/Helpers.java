@@ -151,8 +151,6 @@ class Helpers {
         }
     }
 
-
-
     String[][] getLimitedSortedScoreArray(String[][] sortedScoreArray, int limit) {
         String[][] tempScoreArray = new String[limit][2];
         for (int i = 0; i < limit; i++) {
@@ -160,5 +158,11 @@ class Helpers {
             tempScoreArray[i][1] = sortedScoreArray[i][1];
         }
         return tempScoreArray;
+    }
+
+    void printLimitedSortedScoreArray(String[][] sortedScoreArray, int limit) {
+        for (int i = 0; i < limit; i++) {
+            System.out.println((i + 1) + ") " + sortedScoreArray[i][0].toLowerCase());
+        }
     }
 }

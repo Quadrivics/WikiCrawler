@@ -21,8 +21,7 @@ class Page {
     private List<String[]> uniqueLeadLinkList;
     private String[][] sortedLeadLinkArray;
 
-    Page() {
-    }
+    Page() { }
 
     Page(Document doc, String shortUrl) {
         this.pageDocument = doc;
@@ -61,6 +60,10 @@ class Page {
 
     List<String> getUniqueWordList() {
         return uniqueWordList;
+    }
+
+    String[][] getSortedWordScoreArray() {
+        return sortedWordScoreArray;
     }
 
     List<String[]> getPageLinkList() {

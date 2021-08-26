@@ -36,22 +36,12 @@ class DataBuilder {
             }
         } else if (subject instanceof Page) {
             if (!visitedLinks.contains(((Page) subject).getShortUrl())) {
-                startCrawl(crawlPage((Page) subject));
+                startCrawl(crawlPage((Page) tp.recurse(page, depth, maxDepth)));
             }
         }
     }
 
-    Object[] crawlPage(Page page) {
-        pageLinkArray = helper.getLimitedSortedScoreArray(page.getSortedLeadLinkArray(), maxLeadLinkAmount);
-        Object[] tempArray = new Page[maxLeadLinkAmount];
-        if (leadLinkAmount < maxLeadLinkAmount) {
-            for (int i = 0; i < pageLinkArray.length; i++) {
-                tempArray[i] = crawlPage(pageLinkArray[i][0]);
-            }
-            leadLinkAmount++;
-        }
-        return tempArray;
-    }
+
 
     Page crawlPage(String pageName) {
         String shortUrl = helper.buildShortLink(pageName);
@@ -74,18 +64,25 @@ class DataBuilder {
         return page;
     }
 
+    Object[] crawlPage(Page page) {
+        pageLinkArray = helper.getLimitedSortedScoreArray(page.getSortedLeadLinkArray(), maxLeadLinkAmount);
+        Object[] tempArray = new Page[maxLeadLinkAmount];
+        if (leadLinkAmount < maxLeadLinkAmount) {
+            for (int i = 0; i < pageLinkArray.length; i++) {
+                tempArray[i] = crawlPage(pageLinkArray[i][0]);
+            }
+            leadLinkAmount++;
+        }
+        return tempArray;
+    }
+
 
     private void printPageInfo(Page page) {
         String indent = buildIndent(depth);
-//        System.out.println("Top " + page.getLeadLinkAmount() + " most used words: ");
-//        helper.printLimitedSortedScoreArray(page.getSortedWordScoreArray(), 3);
-
         System.out.println("Prioritized leadlinks are: ");
         for (int i = 0; i < maxLeadLinkAmount; i++) {
             System.out.println(indent + (i + 1) + ") " + page.getSortedLeadLinkArray()[i][0].toLowerCase());
         }
-//        System.out.println("Words/Unique: " + page.getWordArray().length + " / " + page.getUniqueWordList().size());
-//        System.out.println("Links/Wiki's: " + page.getPageLinkList().size() + " / " + page.getLeadLinkList().size());
     }
 
     String buildIndent(int amount) {
